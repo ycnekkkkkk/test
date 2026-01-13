@@ -14,6 +14,7 @@ app = FastAPI(
 
 # CORS middleware
 import os
+
 allowed_origins = [
     "http://localhost:3000",
     "http://localhost:3001",
@@ -28,7 +29,10 @@ if frontend_url:
 
 # Allow all origins in production (for Railway deployment)
 # You can restrict this later by setting specific domains
-if os.getenv("RAILWAY_ENVIRONMENT") == "production" or os.getenv("ENVIRONMENT") == "production":
+if (
+    os.getenv("RAILWAY_ENVIRONMENT") == "production"
+    or os.getenv("ENVIRONMENT") == "production"
+):
     allowed_origins = ["*"]
 
 app.add_middleware(
@@ -51,4 +55,3 @@ def read_root():
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
-
