@@ -5,7 +5,7 @@
 Vào Railway Dashboard → Backend Service → Variables, thêm:
 
 ```
-DATABASE_URL=sqlite:///./test_session.db
+DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@db.xxx.supabase.co:5432/postgres
 GEMINI_API_KEY=your_gemini_api_key_here
 GEMINI_API_KEY_BACKUP=your_backup_gemini_api_key_here
 FRONTEND_URL=https://test-production-73f1.up.railway.app
@@ -13,6 +13,9 @@ PORT=8000
 ```
 
 **Lưu ý:**
+- **DATABASE_URL**: Lấy từ Supabase (xem `SUPABASE_SETUP.md` để biết cách lấy)
+  - Nên dùng Connection Pooling URL từ Supabase (port 6543)
+  - Format: `postgresql://postgres.xxx:[PASSWORD]@aws-0-xxx.pooler.supabase.com:6543/postgres`
 - Thay `your_gemini_api_key_here` bằng API key thực tế của bạn
 - `FRONTEND_URL` đã được set sẵn trong code, nhưng có thể override bằng biến này
 
