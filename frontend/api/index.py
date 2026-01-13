@@ -6,16 +6,19 @@ import sys
 import os
 
 # Add backend to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../backend'))
+backend_path = os.path.join(os.path.dirname(__file__), '../../backend')
+sys.path.insert(0, backend_path)
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
 from app.database import engine, Base
 from app.routes.test_session import router
 
-# Create database tables
-Base.metadata.create_all(bind=engine)
+# Create database tables (only if not exists)
+try:
+    Base.metadata.create_all(bind=engine)
+except Exception as e:
+    print(f"Database initialization note: {e}")
 
 app = FastAPI(
     title="IELTS Test API",
@@ -47,22 +50,9 @@ def health_check():
 
 
 # Vercel serverless function handler
-def handler(request):
-    """
-    Vercel serverless function handler
-    This wraps FastAPI app to work with Vercel's serverless functions
-    """
-    from mangum import Mangum
-    
-    # Create Mangum adapter for FastAPI
-    handler = Mangum(app, lifespan="off")
-    
-    # Convert Vercel request to ASGI
-    return handler(request)
+# Vercel Python runtime expects a handler function
+from mangum import Mangum
 
-
-# For Vercel Python runtime
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=3000)
+# Create Mangum adapter for FastAPI (ASGI to AWS Lambda/Vercel format)
+handler = Mangum(app, lifespan="off")
 
