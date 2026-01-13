@@ -20,19 +20,21 @@ allowed_origins = [
     "http://localhost:3001",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:3001",
+    # Railway frontend domain
+    "https://test-production-73f1.up.railway.app",
 ]
 
-# Add frontend domain from environment variable (for Vercel/Render deployment)
+# Add frontend domain from environment variable (for Railway deployment)
 frontend_url = os.getenv("FRONTEND_URL")
 if frontend_url:
     allowed_origins.append(frontend_url)
 
-# Allow all origins in production (for Render/Vercel deployment)
-# You can restrict this later by setting specific domains
+# Allow all origins in production (for Railway deployment)
+# Railway sets RAILWAY_ENVIRONMENT automatically
 if (
     os.getenv("RAILWAY_ENVIRONMENT") == "production"
     or os.getenv("ENVIRONMENT") == "production"
-    or os.getenv("RENDER") == "true"  # Render sets this automatically
+    or os.getenv("RENDER") == "true"
 ):
     allowed_origins = ["*"]
 
