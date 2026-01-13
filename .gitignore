@@ -1,0 +1,31 @@
+# Backend
+__pycache__/
+*.pyc
+*.db
+.env
+venv/
+env/
+*.db-journal
+
+# Frontend
+.next/
+node_modules/
+.env.local
+.env*.local
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
